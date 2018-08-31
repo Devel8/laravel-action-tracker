@@ -2,7 +2,7 @@
 
 This package provides an easy way to have a historical of actions done over models.
 
-##Installation
+## Installation
 
 Execute the following command to get the latest version of the package:
 
@@ -31,7 +31,7 @@ Finally, you will should run migration database command:
 php artisan migrate
 ```
 
-##Usage
+## Usage
 
 Use `Devel8\LaravelActionTracker\ActionTrackerTrait` as trait in your model class:
 
@@ -70,7 +70,7 @@ $post = Post::find(56);
 $actions = $post->actionTracker()->where('action', 'closed')->get();
 ```
 
-##Configuration
+## Configuration
 
 You can configure some options as model, table name and columns name prefix:
 
@@ -95,9 +95,9 @@ You can configure some options as model, table name and columns name prefix:
 ]
 ```
 
-##Troubleshooting
+## Troubleshooting
 
-###Polymorphic relation
+### Polymorphic relation
 
 This package uses polymorphic relationship, so you can get troubles when you want to retrieve actions information by models.
 By default Laravel saves model namespace in the database for relation model purpose. As namespaces have backslashes it could be a trouble when you filter by model.
