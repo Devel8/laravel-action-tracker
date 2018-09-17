@@ -1,7 +1,7 @@
 {
     "name": "devel8/laravel-action-tracker",
     "description": "A simple package for tracking actions over models",
-    "type": "laravel package",
+    "type": "laravel-package",
     "license": "MIT",
     "authors": [
         {
