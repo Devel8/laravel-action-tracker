@@ -9,5 +9,7 @@
             "email": "ifranco@devel8.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": "^5.3.3 || ^7.0"
+    }
 }
