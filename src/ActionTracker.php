@@ -24,7 +24,8 @@ class ActionTracker extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function user(){
-        return $this->hasOne(Config::get('app.providers.users.model'));
+        $model = $this->newRelatedInstance(Config::get('auth.providers.users.model'));
+        return $this->belongsTo(Config::get('auth.providers.users.model'), 'user_id', $model->getKeyName());
     }
 
 }
