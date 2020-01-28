@@ -70,6 +70,23 @@ $post = Post::find(56);
 $actions = $post->actionTracker()->where('action', 'closed')->get();
 ```
 
+## Events
+
+The Eloquent model method `doActionTracker` dispatch a generic event in each action tracker registration.
+You can listen this event adding the below code in your `App\Providers\EventServiceProvider`:
+``` php
+/**
+ * The event listener mappings for the application.
+ *
+ * @var array
+ */
+protected $listen = [
+    \Devel8\LaravelActionTracker\ActionTracked::class => [
+        \App\Listeners\YourListener::class,
+    ],
+];
+```
+
 ## Configuration
 
 You can configure some options as model, table name and columns name prefix:

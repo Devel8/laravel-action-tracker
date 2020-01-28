@@ -13,6 +13,13 @@ use Auth;
 trait ActionTrackerTrait
 {
 
+
+
+    /**
+     * Action list
+     */
+    protected array $actions = [];
+
     /**
      * @return mixed
      */
@@ -37,7 +44,7 @@ trait ActionTrackerTrait
 
         $prefix = Config::get('action-tracker.prefix');
 
-        $actionTracker = [
+        $actionTracker = new ActionTracker([
             'action' => $action,
             'message' => $message,
             'extra' => $extra,
@@ -46,13 +53,17 @@ trait ActionTrackerTrait
             $prefix.'_id' => $this->getKey(),
             'created_at' => new \DateTime(),
             'updated_at' => new \DateTime(),
-        ];
+        ]);
 
         if($model_tracking){
             //TODO: save old and new model values
         }
 
-        return $this->actionTracker()->insert($actionTracker);
+        $result = $this->actionTracker()->insert($actionTracker);
+
+        event(new ActionTracked($actionTracker));
+
+        return $result;
     }
 
     /**
