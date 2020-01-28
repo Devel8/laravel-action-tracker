@@ -13,7 +13,10 @@ use Auth;
 trait ActionTrackerTrait
 {
 
-
+    /**
+     * Action events list
+     */
+    protected array $actionEvents = [];
 
     /**
      * Action list
@@ -23,21 +26,24 @@ trait ActionTrackerTrait
     /**
      * @return mixed
      */
-    public function actionTracker(){
+    public function actionTracker()
+    {
         return $this->morphMany(Config::get('action-tracker.model'), 'action_tracker');
     }
 
     /**
      * Registry the action information
      *
-     * @param $action
-     * @param $message
-     * @param $extra
+     * @param string $action
+     * @param string|null $message
+     * @param null $extra
      * @param bool $model_tracking
      * @return mixed
      * @throws NotAllowedActionException
+     * @throws \ReflectionException
      */
-    public function doActionTracker($action, $message = null, $extra = null, $model_tracking = false){
+    public function doActionTracker(string $action, string $message = null, $extra = null, bool $model_tracking = false)
+    {
 
         if(!$this->validateAction($action))
             throw new NotAllowedActionException();
@@ -63,7 +69,26 @@ trait ActionTrackerTrait
 
         event(new ActionTracked($actionTracker));
 
+        $this->dispatchActionEvent($action, $actionTracker);
+
         return $result;
+    }
+
+    /**
+     * Dispatch an event dynamically from action event list
+     *
+     * @param $action
+     * @param $actionTracker
+     * @throws \ReflectionException
+     */
+    private function dispatchActionEvent($action, $actionTracker)
+    {
+        if($this->validateActionEvent($action)) {
+            $classname = $this->actionEvents[$action];
+            $class = new \ReflectionClass($classname);
+            $instance = $class->newInstanceArgs(array($actionTracker));
+            event($instance);
+        }
     }
 
     /**
@@ -72,7 +97,19 @@ trait ActionTrackerTrait
      * @param $action
      * @return bool
      */
-    private function validateAction($action){
+    private function validateAction($action)
+    {
         return in_array($action, $this->actions);
+    }
+
+    /**
+     * Check whether is allowed action event
+     *
+     * @param $action
+     * @return bool
+     */
+    private function validateActionEvent($action)
+    {
+        return in_array($action, $this->actionEvents);
     }
 }

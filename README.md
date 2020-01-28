@@ -1,6 +1,6 @@
 # Laravel Action Tracker
 
-This package provides an easy way to have a historical of actions done over models.
+This package provides an easy way to have an historical of actions done over models.
 
 ## Installation
 
@@ -46,7 +46,7 @@ Specify the actions done in the model, defining an `actions` attribute in your m
 ``` php
 protected $actions = [
         'closed',
-        'action2'
+        'created'
     ];
 ```
 
@@ -86,6 +86,42 @@ protected $listen = [
     ],
 ];
 ```
+
+Whether you prefer listen an action, you can add your custom event for each action adding it at the property `actionEvents` in your Eloquent model as below:
+``` php
+    /**
+     * Action events list
+     */
+    protected array $actionEvents = [
+        'closed' => \App\Events\PostClosed::class
+    ];
+``` 
+
+ActionTracker send the Eloquent model `ActionTracker` as argument to the constructor of your custom action event.
+Therefore the event class looks like:
+``` php
+    class PostClosed
+    {
+    
+        use SerializesModels;
+    
+        public ActionTracker $actionTracker;
+    
+        /**
+         * ActionTracked constructor.
+         *
+         * @param ActionTracker $actionTracker
+         */
+        public function __construct(ActionTracker $actionTracker)
+        {
+            $this->actionTracker = $actionTracker;
+        }
+    
+    }
+``` 
+
+You can follow [the official laravel documentation](https://laravel.com/docs) for further information about [register events and listeners](https://laravel.com/docs/5.8/events).
+
 
 ## Configuration
 
