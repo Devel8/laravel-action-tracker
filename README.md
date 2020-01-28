@@ -149,7 +149,12 @@ You can configure some options as model, table name and columns name prefix:
     /*
      * Prefix word used to database columns name
      */
-    'prefix' => 'custom_action_tracker'
+    'prefix' => 'custom_action_tracker',
+                                       
+    /*
+    * Log action tracking in the log as info type.
+    */
+    'log_tracking' => false
 
 ]
 ```

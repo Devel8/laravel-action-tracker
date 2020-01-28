@@ -21,6 +21,11 @@ return [
     /*
      * Prefix word used to database columns name.
      */
-    'prefix' => 'action_tracker'
+    'prefix' => 'action_tracker',
+
+    /*
+     * Log action tracking in the log as info type.
+     */
+    'log_tracking' => false
 
 ];

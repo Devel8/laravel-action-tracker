@@ -3,6 +3,7 @@
 namespace Devel8\LaravelActionTracker;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class ActionTrackerProvider extends ServiceProvider
 {
@@ -13,6 +14,8 @@ class ActionTrackerProvider extends ServiceProvider
      */
     public function boot()
     {
+        parent::boot();
+
         $this->publishes([
             __DIR__.'/../config/action-tracker.php' => config_path('action-tracker.php'),
         ], 'config');
@@ -20,6 +23,11 @@ class ActionTrackerProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../database/migrations' => database_path('migrations'),
         ], 'migrations');
+
+        Event::listen(ActionTracked::class, function (ActionTracker $actionTracker) {
+            if(Config::get('action-tracker.log_tracking'))
+                Log::info("{$actionTracker->action}: {$actionTracker->message}");
+        });
     }
 
     /**
