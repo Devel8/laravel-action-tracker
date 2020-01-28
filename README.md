@@ -131,6 +131,12 @@ You can configure some options as model, table name and columns name prefix:
 [
 
     /*
+     * Disable all action tracking.
+     * Therefore if disabled the actions will not be persisted in the database.
+     */
+    'disable' => false,
+
+    /*
      * Action Tracker Model Class
      */
     'model' => \CustomActionTracker::class,

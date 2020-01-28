@@ -45,6 +45,9 @@ trait ActionTrackerTrait
     public function doActionTracker(string $action, string $message = null, $extra = null, bool $model_tracking = false)
     {
 
+        if(Config::get('action-tracker.disable'))
+            return false;
+
         if(!$this->validateAction($action))
             throw new NotAllowedActionException();
 
