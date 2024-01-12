@@ -21,7 +21,7 @@ trait ActionTrackerTrait
     /**
      * Action list
      */
-    protected array $actions = [];
+//    protected array $actions = [];
 
     /**
      * @return mixed
@@ -44,10 +44,8 @@ trait ActionTrackerTrait
      */
     public function doActionTracker(string $action, string $message = null, $extra = null, bool $model_tracking = false)
     {
-
         if(Config::get('action-tracker.disable'))
             return false;
-
         if(!$this->validateAction($action))
             throw new NotAllowedActionException();
 
@@ -63,17 +61,12 @@ trait ActionTrackerTrait
             'created_at' => new \DateTime(),
             'updated_at' => new \DateTime(),
         ]);
-
         if($model_tracking){
             //TODO: save old and new model values
         }
-
-        $result = $this->actionTracker()->insert($actionTracker);
-
+        $result = $this->actionTracker()->insert($actionTracker->attributesToArray());
         event(new ActionTracked($actionTracker));
-
         $this->dispatchActionEvent($action, $actionTracker);
-
         return $result;
     }
 
