@@ -12,7 +12,7 @@ use Config;
  */
 class ActionTracker extends Model
 {
-    protected $fillable = ['action', 'message', 'extra', 'user_id', 'action_tracke_type', 'action_tracke_id', 'created_at', 'updated_at'];
+    protected $fillable = ['action', 'message', 'extra', 'user_id', 'action_tracker_type', 'action_tracker_id', 'created_at', 'updated_at'];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
