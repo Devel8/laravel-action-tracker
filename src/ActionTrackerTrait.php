@@ -46,6 +46,7 @@ trait ActionTrackerTrait
     {
         if(Config::get('action-tracker.disable'))
             return false;
+
         if(!$this->validateAction($action))
             throw new NotAllowedActionException();
 
@@ -58,13 +59,11 @@ trait ActionTrackerTrait
             'user_id' => Auth::check() ? Auth::user()->getAuthIdentifier() : null,
             $prefix.'_type' => $this->getMorphClass(),
             $prefix.'_id' => $this->getKey(),
-            'created_at' => new \DateTime(),
-            'updated_at' => new \DateTime(),
         ]);
         if($model_tracking){
             //TODO: save old and new model values
         }
-        $result = $this->actionTracker()->insert($actionTracker->attributesToArray());
+        $result = $this->actionTracker()->save($actionTracker);
         event(new ActionTracked($actionTracker));
         $this->dispatchActionEvent($action, $actionTracker);
         return $result;
