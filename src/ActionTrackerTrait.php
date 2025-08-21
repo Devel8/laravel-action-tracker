@@ -15,8 +15,9 @@ trait ActionTrackerTrait
 
     /**
      * Action events list
+     * @var array
      */
-    protected array $actionEvents = [];
+    protected $actionEvents = [];
 
     /**
      * Action list

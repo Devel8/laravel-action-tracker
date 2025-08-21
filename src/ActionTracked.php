@@ -9,7 +9,10 @@ class ActionTracked
 
     use SerializesModels;
 
-    public ActionTracker $actionTracker;
+	/**
+	 * @var ActionTracker
+	 */
+    public $actionTracker;
 
     /**
      * ActionTracked constructor.
